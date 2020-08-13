@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Who is the next Beer Captain</title>
+  </head>
+  <style>
+    input {
+      display: block;
+      margin-bottom: 12px;
+    }
+  </style>
+  <body>
+    <h1>Who is the next Beer Captain</h1>
+    
+    <ul>
+      <li>Ralf: <b id='ralf_votes'></b></li>
+      <li>Tristan: <b id='tristan_votes'></b></li>
+    </ul>
+
+    <button onclick="App.voteFor('ralf')">Ralf</button>
+    <button onclick="App.voteFor('tristan')">Tristan</button>
+
+    <script src="index.js"></script>
+  </body>
+</html>
