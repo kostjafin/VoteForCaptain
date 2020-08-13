@@ -22,30 +22,32 @@ const App = {
       const accounts = await web3.eth.getAccounts();
       this.account = accounts[0];
 
-      //this.someTest();
+      //this.setVoteable();
+      this.setEventListener();
     } catch (error) {
       console.error("Could not connect to contract or chain.");
     }
   },
 
-  someTest: async function() {
-      //this.meta.events.Voted({}, (err, event) => {
-        //console.log(event)
-        //setVotes('tristan', '0x23423', 34)
-      //})
-
+  setVoteable: async function() {
       const { votable } = this.meta.methods
       let vot = await votable().call()
-      console.log(vot)
-      //let votes_tristan = await this.meta.methods.getVotes('tristan').call()
-      //console.log(votes_tristan)
-      //votes_tristan = await this.meta.methods.getVotes('asdfasdf').call()
-      //console.log(votes_tristan)
+      if (!vot) {
+        document.querySelector('#ralf_btn').setAttribute('disabled', true)
+        document.querySelector('#tristan_btn').setAttribute('disabled', true)
+      }
+  },
+
+  setEventListener: async function() {
+      this.meta.events.Voted({}, async (err, event) => {
+        let vot = await this.meta.methods.getVotes(event.returnValues[1]).call()
+        this.setVotes(event.returnValues[1], event.returnValues[0], vot)
+      })
   },
   
   voteFor: async function(name) {
     const { vote } = this.meta.methods
-    await vote(name).send({ from: this.account, gas: 25000 })
+    await vote(name).send({ from: this.account })
   },
 
   setVotes: function(name, votee, votes) {

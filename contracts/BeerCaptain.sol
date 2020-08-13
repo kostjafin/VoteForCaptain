@@ -11,8 +11,8 @@ contract BeerCaptain {
 
   function vote(string memory votee) public returns(bool) {
     bytes32 votee_hash = keccak256(bytes(votee));
-    require(votee_hash == keccak256(bytes('tristan')) || votee_hash == keccak256(bytes('ralf')) );
-    require(voters[msg.sender] == false);
+    require(votee_hash == keccak256(bytes('tristan')) || votee_hash == keccak256(bytes('ralf')), 'not ralf or tristan');
+    //require(voters[msg.sender] == false, 'already voted');
     votes[votee_hash].push(msg.sender); 
     voters[msg.sender] = true;
     emit Voted(msg.sender, votee);
